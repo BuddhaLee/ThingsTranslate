@@ -84,7 +84,6 @@ class CameraScreen extends React.Component {
      //this.rootText( translatedText );
      console.log(translatedText);
      this.props.navigation.navigate('rootText',{ text: translatedText,})
-    // console.log(this.props);
 
    }
  };

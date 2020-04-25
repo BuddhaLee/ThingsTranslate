@@ -6,10 +6,7 @@ export default class rootText extends React.Component {
 
 
     render() {
-       // const {navigation} = this.props;
-        console.log(this.props);
-
-        //console.log(this.props.route.params.text);
+       
         targettext=this.props.route.params.text;
         return (
             <View style={{ flex: 1, marginTop: 20 }}>
