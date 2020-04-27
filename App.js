@@ -10,6 +10,8 @@ import {
 import LibraryScreen from './LibraryDetect';
 import CameraScreen from './Camera';
 import rootText from './Text';
+import OCRScreen from './Document';
+
 //import ActionButton from 'react-native-circular-action-menu';
 import ActionButton from 'react-native-action-button';
 
@@ -22,7 +24,9 @@ function HomeScreen({navigation}) {
     <View style={{flex:1, backgroundColor: '#f3f3f3'}}>
     {/*Rest of App come ABOVE the action button component!*/}
     <ActionButton renderIcon={(active) => (active? (<Icon name="md-search" style={styles.actionButtonIcon} /> ): ( <Icon name="md-search" style={styles.actionButtonIcon} />))} hideShadow={true} size={97} buttonColor="rgba(231,76,60,1)">
-
+    <ActionButton.Item size={60} buttonColor='#3498db' title="OCR" onPress={() => navigation.navigate('OCRScreen', {name: 'OCRScreen'})}>
+        <Icon name="md-text" style={styles.actionButtonitemIcon} />
+      </ActionButton.Item>
       <ActionButton.Item size={60} buttonColor='#3498db' title="Text detection" onPress={() => navigation.navigate('LibraryScreen', {name: 'LibraryScreen'})}>
         <Icon name="md-photos" style={styles.actionButtonitemIcon} />
       </ActionButton.Item>
@@ -79,6 +83,7 @@ export default function App() {
         <Stack.Screen name="Camera" component={CameraScreen} />
         <Stack.Screen name="rootText" component={rootText} />
         <Stack.Screen name="LibraryScreen" component={LibraryScreen} />
+        <Stack.Screen name="OCRScreen" component={OCRScreen} />
 
       </Stack.Navigator>
     </NavigationContainer>

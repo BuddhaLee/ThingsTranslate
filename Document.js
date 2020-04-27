@@ -35,7 +35,7 @@ import {
 
 
 
-class CameraScreen extends React.Component {
+export default class OCRScreen extends React.Component {
 
  constructor() {
    super();
@@ -99,8 +99,7 @@ class CameraScreen extends React.Component {
            },
            features: [
              {
-               type: 'LABEL_DETECTION',
-               //type: 'TEXT_DETECTION',
+               type: 'TEXT_DETECTION',
 
                maxResults: 1
              }
@@ -109,10 +108,9 @@ class CameraScreen extends React.Component {
        ]
      })
      .then(response => response.data)
-     .then(label => label.responses[0].labelAnnotations[0].description)
-     //.then(text => text.responses[0].fullTextAnnotation)
-
+     .then(text => text.responses[0].fullTextAnnotation.text)
      .catch(err => console.log(err));
+
  };
 
 
@@ -193,10 +191,8 @@ class CameraScreen extends React.Component {
      );
    }
  }
+
 }
-
-export default CameraScreen;
-
 // const Button= styled.TouchableOpacity`
 // width:100%;
 // padding:20px;
