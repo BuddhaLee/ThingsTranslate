@@ -1,34 +1,40 @@
 import React from 'react';
-import { ScrollView ,Picker, Button} from 'react-native';
-import {View, TextInput, Text} from 'react-native-ui-lib';
+import {View, Text} from 'react-native-ui-lib';
 
-import styled from 'styled-components';
-import ModalDropdown from 'react-native-modal-dropdown';
+
 import {
   StyleSheet,
-
 } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import * as Speech from 'expo-speech';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
+
+
 export default class rootText extends React.Component {
 
-    render() {
-        //let { navigate } = props.navigation;
-      targettext=this.props.route.params.text;
-      Englishtext=this.props.route.params.Etext;
-        
-        return (
-            <View style={{ flex: 1, marginTop: 30 }}>
 
-  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <View stlye={{ flex: 2 }}>
-                  <Text style={{ fontSize: 20 }}>{targettext}</Text>
-                  <Text style={{ fontSize: 20 }}>{Englishtext}</Text>
+
+    render() {
+
+        Englishtext=this.props.route.params.text;
+      TargetText=this.props.route.params.Etext;
+      country=this.props.route.params.country;
+   
+        return (
+            <View style={{ flex: 1, marginTop: 32}}>
+
+  <View style={{ justifyContent: 'center', alignItems: 'center'}}>
+                <View stlye={{ flex: 1 }}>
+                  <Text style={{ fontSize: 20 }}>{"English: "+Englishtext}</Text>
+                  </View>
+                  <View style={{  marginTop: 12 }}>
+
+                  <Text style={{ fontSize: 20 }}>{"Target language: "+TargetText}</Text>
               
-                </View>
+                  </View>
+
  
               </View>
               <View style={{flex:1, backgroundColor: '#f3f3f3'}}>
@@ -36,7 +42,10 @@ export default class rootText extends React.Component {
     <ActionButton.Item size={60} buttonColor='#1abc9c' title="pronunciation" onPress={()=>Speech.speak(Englishtext)} >
         <Icon name="md-microphone" style={styles.actionButtonitemIcon} />
       </ActionButton.Item>
-      <ActionButton.Item size={60} buttonColor='#3498db' title="Album" onPress={() => this.props.navigation.navigate('LibraryScreen', {name: 'LibraryScreen'})}>
+      <ActionButton.Item size={60} buttonColor='#3498db' title="OCR" onPress={() => this.props.navigation.navigate('OCRScreen', {name: 'OCRScreen'})}>
+        <Icon name="md-text" style={styles.actionButtonitemIcon} />
+      </ActionButton.Item>
+      <ActionButton.Item size={60} buttonColor='#3498db' title="Album" onPress={() => this.props.navigation.navigate('Album', {name: 'Album'})}>
         <Icon name="md-photos" style={styles.actionButtonitemIcon} />
       </ActionButton.Item>
       <ActionButton.Item size={60} buttonColor='#1abc9c' title="Camera" onPress={() => this.props.navigation.navigate('Camera', {name: 'things'})}>
@@ -45,10 +54,7 @@ export default class rootText extends React.Component {
 
     </ActionButton>
   </View>
-            {/* <ScrollView style={{ flex: 1, margin:111  }}>
-
-
-            </ScrollView> */}
+            
 
           </View>
         );

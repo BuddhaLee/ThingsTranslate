@@ -1,21 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
-import {View, TextInput, Text, Button} from 'react-native-ui-lib';
+import {View, Text, } from 'react-native-ui-lib';
 
 import {
   TouchableOpacity
 } from 'react-native';
 
-//import { Button, Text } from 'native-base';
-//import { View , ScrollView} from 'react-native';
+
 import * as ImageManipulator from "expo-image-manipulator";
 import * as Localization from 'expo-localization';
-//import { createStackNavigator } from 'react-navigation';
-import ActionButton from 'react-native-action-button';
+
 
 import { Camera } from 'expo-camera'; 
 import * as Permissions from 'expo-permissions';
-import colours from './Colours';
 import axios from 'axios';
 import Loader from './Loader';
 import config from './config';
@@ -24,13 +21,6 @@ import {
   StyleSheet,
 
 } from 'react-native';
-// import { 
-//   Ionicons,
-//   MaterialIcons,
-//   Foundation,
-//   MaterialCommunityIcons,
-//   Octicons
-// } from '@expo/vector-icons';
 
 
 
@@ -54,7 +44,6 @@ export default class OCRScreen extends React.Component {
 
  snap = async () => {
    this.setState({ loading: true });
-   //const { navigate } = this.props.navigation;
    if (this.camera) {
      let photo;
      let textRecieved;
@@ -81,10 +70,9 @@ export default class OCRScreen extends React.Component {
        console.log(err);
      }
 
-     //navigate('rootText', { text: translatedText });
-     //this.rootText( translatedText );
+
      console.log(translatedText);
-     this.props.navigation.navigate('rootText',{ text: translatedText, Etext:textRecieved})
+     this.props.navigation.navigate('Text',{ text: translatedText, Etext:textRecieved})
 
    }
  };
@@ -115,7 +103,6 @@ export default class OCRScreen extends React.Component {
 
 
  getTranslatedText = async parsedText => {
-   //let lang = await Expo.DangerZone.Localization.getCurrentLocaleAsync();
    let lang = await Localization.locale;
 
 
@@ -164,10 +151,7 @@ export default class OCRScreen extends React.Component {
            ref={ref => {
              this.camera = ref;
            }}>
-           {/* <View style={{ margin: 20, padding: 20 }}> */}
-             {/* <Button bordered onPress={this.snap} light>
-               <Text>Shot</Text>
-             </Button> */}
+      
            
         
     <View
@@ -183,7 +167,6 @@ export default class OCRScreen extends React.Component {
 
 
 
-           {/* </View> */}
          </Camera>
        </View>
 
@@ -193,18 +176,7 @@ export default class OCRScreen extends React.Component {
  }
 
 }
-// const Button= styled.TouchableOpacity`
-// width:100%;
-// padding:20px;
-// `;
 
-// const Text = styled.Text`
-//  color: ${colours.blue};
-//  font-size: 50px;
-//  margin-top: 5%;
-//  margin-left: 20px;
-//  font-weight: bold;
-// `
 const flashModeOrder = {
   off: 'on',
   on: 'auto',
@@ -212,10 +184,7 @@ const flashModeOrder = {
   torch: 'off',
 };
 
-const TouchButton= styled.TouchableOpacity`
-width:50%;
-padding:10px;
-`;
+
 
 const styles = StyleSheet.create({
   actionButtonitemIcon: {

@@ -1,25 +1,27 @@
 
-//import {View, TextInput, Text, Button} from 'react-native-ui-lib';
-
-
-import * as ImageManipulator from "expo-image-manipulator";
-import * as Localization from 'expo-localization';
-
-//import * as Permissions from 'expo-permissions';
-import axios from 'axios';
-import config from './config';
 
 import * as React from 'react';
 import { Button, Image, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
+import * as ImageManipulator from "expo-image-manipulator";
+import axios from 'axios';
+import config from './config';
+import Loader from './Loader';
 
 
 export default class LibraryScreen extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+          loading: false
+        };
+      }
     state = {
         image: null,
       };
+      
    
 getText = image => {
     return axios
@@ -32,7 +34,6 @@ getText = image => {
             features: [
               {
                 type: 'LABEL_DETECTION',
-                //type: 'TEXT_DETECTION',
  
                 maxResults: 1
               }
@@ -42,15 +43,13 @@ getText = image => {
       })
       .then(response => response.data)
       .then(label => label.responses[0].labelAnnotations[0].description)
-      //.then(text => text.responses[0].fullTextAnnotation)
  
       .catch(err => console.log(err));
   };
  
  
   getTranslatedText = async parsedText => {
-    //let lang = await Expo.DangerZone.Localization.getCurrentLocaleAsync();
-    let lang = await Localization.locale;
+    let lang = country;
  
     let toLang = lang.slice(0, 2);
     let text = parsedText;
@@ -72,7 +71,10 @@ getText = image => {
     let { image } = this.state;
 
     return (
+
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Loader loading={this.state.loading}/>
+
         <Button
           title="Pick an image from camera roll"
           onPress={this._pickImage}
@@ -97,10 +99,11 @@ getText = image => {
   }
 
   _pickImage = async () => {
+    this.setState({ loading: true });
+
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      //aspect: [4, 3],
       quality: 1
     });
 
@@ -110,9 +113,7 @@ getText = image => {
         let textRecieved;
         let translatedText;
         try {
-        //console.log(result.uri);
 
-        //   let { uri } = await this.setState(result.uri);
 
           photo = await ImageManipulator.manipulateAsync(
             result.uri,
@@ -123,6 +124,8 @@ getText = image => {
           );
           textRecieved = await this.getText(photo.base64);
           console.log(textRecieved);
+          country=this.props.route.params.country;
+
            translatedText = await this.getTranslatedText(textRecieved);
           if (translatedText === 'undefined') {
             translatedText = 'Text not recognized';
@@ -133,10 +136,9 @@ getText = image => {
           console.log(err);
         }
    
-        //navigate('rootText', { text: translatedText });
-        //this.rootText( translatedText );
+
         console.log(translatedText);
-        this.props.navigation.navigate('rootText',{ text: translatedText,})
+        this.props.navigation.navigate('Text',{ text: textRecieved, Etext:translatedText})
     }
   };
 

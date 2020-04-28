@@ -1,21 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-import {View, TextInput, Text, Button} from 'react-native-ui-lib';
+import {View, Text} from 'react-native-ui-lib';
 
 import {
   TouchableOpacity
 } from 'react-native';
 
-//import { Button, Text } from 'native-base';
-//import { View , ScrollView} from 'react-native';
 import * as ImageManipulator from "expo-image-manipulator";
-import * as Localization from 'expo-localization';
-//import { createStackNavigator } from 'react-navigation';
-import ActionButton from 'react-native-action-button';
 
 import { Camera } from 'expo-camera'; 
 import * as Permissions from 'expo-permissions';
-import colours from './Colours';
 import axios from 'axios';
 import Loader from './Loader';
 import config from './config';
@@ -24,13 +18,7 @@ import {
   StyleSheet,
 
 } from 'react-native';
-// import { 
-//   Ionicons,
-//   MaterialIcons,
-//   Foundation,
-//   MaterialCommunityIcons,
-//   Octicons
-// } from '@expo/vector-icons';
+
 
 
 
@@ -43,7 +31,7 @@ class CameraScreen extends React.Component {
    this.state = {
     flash: 'off',
      hasCameraPermission: null,
-     loading: false
+     loading: false,
    };
  }
  
@@ -54,7 +42,6 @@ class CameraScreen extends React.Component {
 
  snap = async () => {
    this.setState({ loading: true });
-   //const { navigate } = this.props.navigation;
    if (this.camera) {
      let photo;
      let textRecieved;
@@ -71,6 +58,7 @@ class CameraScreen extends React.Component {
        );
        textRecieved = await this.getText(photo.base64);
        console.log(textRecieved);
+       country=this.props.route.params.country;
         translatedText = await this.getTranslatedText(textRecieved);
        if (translatedText === 'undefined') {
          translatedText = 'Text not recognized';
@@ -81,10 +69,11 @@ class CameraScreen extends React.Component {
        console.log(err);
      }
 
-     //navigate('rootText', { text: translatedText });
-     //this.rootText( translatedText );
+
      console.log(translatedText);
-     this.props.navigation.navigate('rootText',{ text: translatedText, Etext:textRecieved})
+  
+     this.props.navigation.navigate('Text',{ text: textRecieved, Etext:translatedText});
+
 
    }
  };
@@ -100,7 +89,6 @@ class CameraScreen extends React.Component {
            features: [
              {
                type: 'LABEL_DETECTION',
-               //type: 'TEXT_DETECTION',
 
                maxResults: 1
              }
@@ -110,19 +98,16 @@ class CameraScreen extends React.Component {
      })
      .then(response => response.data)
      .then(label => label.responses[0].labelAnnotations[0].description)
-     //.then(text => text.responses[0].fullTextAnnotation)
 
      .catch(err => console.log(err));
  };
 
 
  getTranslatedText = async parsedText => {
-   //let lang = await Expo.DangerZone.Localization.getCurrentLocaleAsync();
-   let lang = await Localization.locale;
+   let lang = country;
 
-
+   
    let toLang = lang.slice(0, 2);
-
    let text = parsedText;
    const API_KEY = config.apiKey;
    let url = `https://translation.googleapis.com/language/translate/v2?key=${API_KEY}`;
@@ -166,10 +151,7 @@ class CameraScreen extends React.Component {
            ref={ref => {
              this.camera = ref;
            }}>
-           {/* <View style={{ margin: 20, padding: 20 }}> */}
-             {/* <Button bordered onPress={this.snap} light>
-               <Text>Shot</Text>
-             </Button> */}
+        
            
         
     <View
@@ -197,18 +179,7 @@ class CameraScreen extends React.Component {
 
 export default CameraScreen;
 
-// const Button= styled.TouchableOpacity`
-// width:100%;
-// padding:20px;
-// `;
 
-// const Text = styled.Text`
-//  color: ${colours.blue};
-//  font-size: 50px;
-//  margin-top: 5%;
-//  margin-left: 20px;
-//  font-weight: bold;
-// `
 const flashModeOrder = {
   off: 'on',
   on: 'auto',
@@ -216,10 +187,7 @@ const flashModeOrder = {
   torch: 'off',
 };
 
-const TouchButton= styled.TouchableOpacity`
-width:50%;
-padding:10px;
-`;
+
 
 const styles = StyleSheet.create({
   actionButtonitemIcon: {
