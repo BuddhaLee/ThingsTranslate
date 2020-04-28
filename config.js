@@ -1,5 +1,5 @@
 const config = {
-  apiKey: 'AIzaSyB2aSSpPoVdjUXQWXYQD12VxSQvNnQ6cOY',
+  apiKey: 'YOUR API',
   googleCloudVision: {
     api: 'https://vision.googleapis.com/v1/images:annotate?key='
   },
